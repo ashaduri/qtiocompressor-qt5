@@ -45,7 +45,7 @@
 ****************************************************************************/
 
 #include <QtXml>
-#include <QtCore/QDebug>
+#include <QDebug>
 #include <qtiocompressor.h>
 
 // This example demonstrates how to use the Qt Xml classes together with QtIOCompressor to store

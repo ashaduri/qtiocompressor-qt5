@@ -44,8 +44,8 @@
 ** 
 ****************************************************************************/
 
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
+#include <QDebug>
+#include <QFile>
 #include <qtiocompressor.h>
 
 // This examples demonstrates how to decompress a file created with the gzip utility.

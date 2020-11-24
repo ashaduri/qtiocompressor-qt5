@@ -44,8 +44,8 @@
 ** 
 ****************************************************************************/
 
-#include <QtCore/QDebug>
-#include <QtCore/QFile>
+#include <QDebug>
+#include <QFile>
 #include <qtiocompressor.h>
 
 int main()

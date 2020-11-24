@@ -44,10 +44,11 @@
 ** 
 ****************************************************************************/
 
-#include <QtCore/QFile>
-#include <QtCore/QBuffer>
-#include <QtCore/QTextStream>
-#include <QtCore/QDebug>
+#include <QFile>
+#include <QBuffer>
+#include <QTextStream>
+#include <QDebug>
+#include <QDataStream>
 #include <qtiocompressor.h>
 
 /*
