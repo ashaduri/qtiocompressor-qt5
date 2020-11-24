@@ -1,6 +1,5 @@
 
-# 3.1 is required for ZLIB import target support
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.0)
 
 # set the project name
 project(qtiocompressor-qt5 VERSION 2.3.2)
@@ -29,8 +28,10 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 find_package(Qt5 COMPONENTS Core REQUIRED)
-# When using Qt, zlib is automatically provided, so no need to find or link to it.
-#find_package(ZLIB REQUIRED)
+if (WIN32)
+	# To discover the zlib.h header, we must "link" to the Qt5::Zlib library, but only on Windows.
+	find_package(Qt5 COMPONENTS Zlib REQUIRED)
+endif()
 
 
 set(qtiocompressor_LIB_SOURCES
@@ -64,9 +65,10 @@ target_compile_definitions(qtiocompressor
 target_link_libraries(qtiocompressor
 	PUBLIC  # These are part of the API
 		Qt5::Core
-#	PRIVATE
-#		ZLIB::ZLIB
 )
+if (WIN32)
+	target_link_libraries(qtiocompressor PRIVATE Qt5::Zlib)
+endif()
 
 target_include_directories(qtiocompressor
 	SYSTEM INTERFACE
