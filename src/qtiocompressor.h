@@ -49,21 +49,40 @@
 
 #include <QIODevice>
 
-#if defined(Q_OS_WIN)
-#  if !defined(QT_QTIOCOMPRESSOR_EXPORT) && !defined(QT_QTIOCOMPRESSOR_IMPORT)
-#    define QT_QTIOCOMPRESSOR_EXPORT
-#  elif defined(QT_QTIOCOMPRESSOR_IMPORT)
-#    if defined(QT_QTIOCOMPRESSOR_EXPORT)
-#      undef QT_QTIOCOMPRESSOR_EXPORT
-#    endif
-#    define QT_QTIOCOMPRESSOR_EXPORT __declspec(dllimport)
-#  elif defined(QT_QTIOCOMPRESSOR_EXPORT)
-#    undef QT_QTIOCOMPRESSOR_EXPORT
-#    define QT_QTIOCOMPRESSOR_EXPORT __declspec(dllexport)
-#  endif
-#else
-#  define QT_QTIOCOMPRESSOR_EXPORT
+// Visibility macro helpers
+#ifndef QT_QTIOCOMPRESSOR_DECL_EXPORT
+	#ifdef _WIN32
+		#define QT_QTIOCOMPRESSOR_DECL_EXPORT __declspec(dllexport)
+	#elif __GNUC__ >= 4
+		#define QT_QTIOCOMPRESSOR_DECL_EXPORT __attribute__((visibility("default")))
+	#else
+		#define QT_QTIOCOMPRESSOR_DECL_EXPORT
+	#endif
 #endif
+#ifndef QT_QTIOCOMPRESSOR_DECL_IMPORT
+	#ifdef _WIN32
+		#define QT_QTIOCOMPRESSOR_DECL_IMPORT __declspec(dllimport)
+	#else
+		#define QT_QTIOCOMPRESSOR_DECL_IMPORT
+	#endif
+#endif
+
+
+// If using this as a static library, the build system must define
+// QT_QTIOCOMPRESSOR_LIBRARY_STATIC when both the building this library, and using it.
+// QT_QTIOCOMPRESSOR_LIBRARY_BUILD must be defined when building this library (whether statically or dynamically).
+#ifndef QT_QTIOCOMPRESSOR_LIBRARY_STATIC
+	#ifdef QT_QTIOCOMPRESSOR_LIBRARY_BUILD  /* building the shared library */
+		#define QT_QTIOCOMPRESSOR_EXPORT QT_QTIOCOMPRESSOR_DECL_EXPORT
+	#else  /* using the shared library */
+		#define QT_QTIOCOMPRESSOR_EXPORT QT_QTIOCOMPRESSOR_DECL_IMPORT
+	#endif
+#endif
+#ifndef QT_QTIOCOMPRESSOR_EXPORT
+	#define QT_QTIOCOMPRESSOR_EXPORT
+#endif
+
+
 
 class QtIOCompressorPrivate;
 class QT_QTIOCOMPRESSOR_EXPORT QtIOCompressor : public QIODevice
