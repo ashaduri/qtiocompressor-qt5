@@ -29,7 +29,8 @@ if(CMAKE_VERSION VERSION_LESS "3.7.0")
 endif()
 
 find_package(Qt5 COMPONENTS Core REQUIRED)
-find_package(ZLIB REQUIRED)
+# When using Qt, zlib is automatically provided, so no need to find or link to it.
+#find_package(ZLIB REQUIRED)
 
 
 set(qtiocompressor_LIB_SOURCES
@@ -63,8 +64,8 @@ target_compile_definitions(qtiocompressor
 target_link_libraries(qtiocompressor
 	PUBLIC  # These are part of the API
 		Qt5::Core
-	PRIVATE
-		ZLIB::ZLIB
+#	PRIVATE
+#		ZLIB::ZLIB
 )
 
 target_include_directories(qtiocompressor
