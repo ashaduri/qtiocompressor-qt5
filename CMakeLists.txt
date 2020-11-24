@@ -1,5 +1,6 @@
 
-cmake_minimum_required(VERSION 3.0)
+# 3.1 is required for FindZLIB imported target support
+cmake_minimum_required(VERSION 3.1)
 
 # set the project name
 project(qtiocompressor-qt5 VERSION 2.3.2)
@@ -31,6 +32,8 @@ find_package(Qt5 COMPONENTS Core REQUIRED)
 if (WIN32)
 	# To discover the zlib.h header, we must "link" to the Qt5::Zlib library, but only on Windows.
 	find_package(Qt5 COMPONENTS Zlib REQUIRED)
+else()
+	find_package(ZLIB REQUIRED)
 endif()
 
 
@@ -68,6 +71,8 @@ target_link_libraries(qtiocompressor
 )
 if (WIN32)
 	target_link_libraries(qtiocompressor PRIVATE Qt5::Zlib)
+else()
+	target_link_libraries(qtiocompressor PRIVATE ZLIB::ZLIB)
 endif()
 
 target_include_directories(qtiocompressor
