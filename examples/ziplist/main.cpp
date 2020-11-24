@@ -84,8 +84,8 @@ int main(int argc, char **argv)
 
     QTextStream sout(stdout);
     // Read all from file and print.
-    sout << "Archive: " << argv[1] << endl;
-    sout << "Item  Size Name" << endl;
+    sout << "Archive: " << argv[1] << Qt::endl;
+    sout << "Item  Size Name" << Qt::endl;
     int item = 0;
     forever {
         // Zip format "local file header" fields:
@@ -120,12 +120,12 @@ int main(int argc, char **argv)
 
         // unCompData now contains the uncompressed file from the zip archive
         sout << QString("%1 %2 ").arg(1+item++, 3).arg(unCompData.size(), 6)
-             << fileName << endl;
+             << fileName << Qt::endl;
 
         if (fileName.toLower().endsWith(".txt"))
             sout << "   Preview: \""
                  << unCompData.mid(0, unCompData.indexOf('\n')).replace('\r', "")
-                 << "\"..." << endl;
+                 << "\"..." << Qt::endl;
     }
 
     if (!item) {
